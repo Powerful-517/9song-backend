@@ -1,4 +1,5 @@
 from sqlalchemy.orm import Session
+from passlib.context import CryptContext
 
 from app.models.user import User as UserModel
 from app.models.song import Song as SongModel
@@ -14,6 +15,10 @@ def get_user(db: Session, user_id: int):
     return db.query(UserModel).filter(UserModel.id == user_id).first()
 
 
+def get_user_by_username(db: Session, username: str):
+    return db.query(UserModel).filter(UserModel.username == username).first()
+
+
 def get_user_by_nickname(db: Session, nickname: str):
     return db.query(UserModel).filter(UserModel.nickname == nickname).first()
 
@@ -23,7 +28,9 @@ def get_users(db: Session, skip: int = 0, limit: int = 100):
 
 
 def create_user(db: Session, user: UserCreateSchema):
-    db_user = UserModel(nickname=user.nickname, hashed_password=user.hashed_password)
+    pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+    hashed_password = pwd_context.hash(user.password)
+    db_user = UserModel(username=user.username, nickname=user.nickname, hashed_password=hashed_password)
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
@@ -40,8 +47,8 @@ def get_songs_by_uploader_id(db: Session, uploader_id: int, skip: int = 0, limit
 
 def get_songs_by_playlist_id(db: Session, playlist_id: int, skip: int = 0, limit: int = 100):
     return db.query(SongModel, PlayListSongModel).filter(
-        PlayListSongModel.playlist_id == playlist_id and PlayListSongModel.song_id == SongModel.id) \
-        .offset(skip).limit(limit).all()
+        PlayListSongModel.playlist_id == playlist_id and PlayListSongModel.song_id == SongModel.id
+    ).offset(skip).limit(limit).all()
 
 
 def get_songs(db: Session, skip: int = 0, limit: int = 100):
@@ -85,5 +92,3 @@ def create_playlist_song(db: Session, playlist_id: int, song_id: int):
     db.commit()
     db.refresh(db_playlist_song)
     return db_playlist_song
-
-

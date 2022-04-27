@@ -5,11 +5,12 @@ from .playlist import PlayList
 
 # Pydantic User model
 class UserBase(BaseModel):
+    username: str
     nickname: str
 
 
 class UserCreate(UserBase):
-    hashed_password: str
+    password: str
 
 
 class User(UserBase):
