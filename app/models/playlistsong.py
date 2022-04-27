@@ -12,5 +12,5 @@ class PlayListSong(Base):
     playlist_id = Column(Integer, ForeignKey("playlists.id"))
     song_id = Column(Integer, ForeignKey("songs.id"))
 
-    playlist = relationship("PlayList", back_populates="PlayListSong")
-    song = relationship("Song", back_populates="PlayListSong")
+    playlists = relationship("PlayList", back_populates="playlist_songs")
+    songs = relationship("Song", back_populates="playlist_songs")

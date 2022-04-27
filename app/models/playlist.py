@@ -13,3 +13,4 @@ class PlayList(Base):
     owner_id = Column(Integer, ForeignKey("users.id"))
 
     owner = relationship("User", back_populates="playlists")
+    playlist_songs = relationship("PlayListSong", back_populates="playlists")

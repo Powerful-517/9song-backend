@@ -16,3 +16,4 @@ class Song(Base):
     uploader_id = Column(Integer, ForeignKey("users.id"))
 
     uploader = relationship("User", back_populates="songs")
+    playlist_songs = relationship("PlayListSong", back_populates="songs")
