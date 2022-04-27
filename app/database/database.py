@@ -11,3 +11,13 @@ SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 # The base class of the ORM models
 Base = declarative_base()
+
+
+# Give an independent session for each request
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        # Close it once the request is finished
+        db.close()
