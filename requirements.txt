@@ -1,0 +1,6 @@
+fastapi
+python-multipart
+python_jose[cryptography]
+SQLAlchemy[sqlite]
+uvicorn[standard]
+passlib[bcrypt]
