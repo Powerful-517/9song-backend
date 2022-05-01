@@ -1,0 +1,15 @@
+version: "3"
+
+services:
+  python:
+    build:
+      context: ./
+      dockerfile: dockerfile
+    volumes:
+      - ${LOCAL_CODE_ROOT}:/app
+    networks:
+      - server
+    container_name: python
+    restart: always
+networks:
+  server:
