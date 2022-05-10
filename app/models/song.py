@@ -12,8 +12,8 @@ class Song(Base):
     name = Column(String)
     artist = Column(String)
     album = Column(String)
-    file_url = Column(String)
     uploader_id = Column(Integer, ForeignKey("users.id"))
+    file_name = Column(String)
 
     uploader = relationship("User", back_populates="songs")
     playlist_songs = relationship("PlayListSong", back_populates="songs")

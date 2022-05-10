@@ -55,11 +55,9 @@ def get_songs(db: Session, skip: int = 0, limit: int = 100):
     return db.query(SongModel).offset(skip).limit(limit).all()
 
 
-def create_song(db: Session, song: SongCreateSchema):
-    # TODO: How to handle file uploads?
-    file_url = ""
+def create_song(db: Session, song: SongCreateSchema, uploader_id: int):
     db_song = SongModel(name=song.name, artist=song.artist, album=song.album,
-                        file_url=file_url, uploader_id=song.uploader_id)
+                        file_name=song.file_name, uploader_id=uploader_id)
     db.add(db_song)
     db.commit()
     db.refresh(db_song)

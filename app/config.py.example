@@ -7,5 +7,11 @@ SECRET_KEY = ""
 
 # JWT token sign algorithm
 ALGORITHM = "HS256"
-
+# JWT token expire time
 ACCESS_TOKEN_EXPIRE_MINUTES = 300
+
+# Aliyun OSS access key
+OSS_ACCESS_KEY_ID = ""
+OSS_ACCESS_KEY_SECRET = ""
+OSS_ENDPOINT = ""
+OSS_BUCKET_NAME = ""
