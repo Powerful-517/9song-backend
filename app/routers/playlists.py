@@ -49,3 +49,9 @@ def create_playlist(playlist: PlayListCreate, db: Session = Depends(database.get
 @router.post("/add_song/{playlist_id}/{song_id}", response_model=PlayListSong)
 def create_playlist_song(playlist_id: int, song_id: int, db: Session = Depends(database.get_db)):
     return crud.create_playlist_song(db, playlist_id=playlist_id, song_id=song_id)
+
+
+@router.put("/{playlist_id}", response_model=PlayList)
+def update_playlist_cur_song(playlist_id: int, song_id: int, db: Session = Depends(database.get_db)):
+    playlist = crud.update_playlist_cur_song(db, playlist_id=playlist_id, song_id=song_id)
+    return playlist

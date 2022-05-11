@@ -46,7 +46,7 @@ def get_songs_by_uploader_id(db: Session, uploader_id: int, skip: int = 0, limit
 
 
 def get_songs_by_playlist_id(db: Session, playlist_id: int, skip: int = 0, limit: int = 100):
-    return db.query(SongModel, PlayListSongModel).filter(
+    return db.query(SongModel).join(PlayListSongModel).filter(
         PlayListSongModel.playlist_id == playlist_id and PlayListSongModel.song_id == SongModel.id
     ).offset(skip).limit(limit).all()
 
@@ -79,6 +79,14 @@ def get_playlists(db: Session, skip: int = 0, limit: int = 100):
 def create_playlist(db: Session, playlist: PlayListCreateSchema, owner_id: int):
     db_playlist = PlayListModel(name=playlist.name, owner_id=owner_id)
     db.add(db_playlist)
+    db.commit()
+    db.refresh(db_playlist)
+    return db_playlist
+
+
+def update_playlist_cur_song(db: Session, playlist_id: int, song_id: int):
+    db_playlist = db.query(PlayListModel).filter(PlayListModel.id == playlist_id).first()
+    db_playlist.cur_song_id = song_id
     db.commit()
     db.refresh(db_playlist)
     return db_playlist
