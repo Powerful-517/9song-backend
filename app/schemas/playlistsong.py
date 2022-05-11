@@ -13,7 +13,6 @@ class PlayListSongCreate(PlayListSongBase):
 
 class PlayListSong(PlayListSongBase):
     id: int
-    owner_id: int
 
     class Config:
         orm_mode = True

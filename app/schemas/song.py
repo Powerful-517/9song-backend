@@ -6,16 +6,16 @@ class SongBase(BaseModel):
     name: str
     artist: str
     album: str
-    uploader_id: int
+    file_name: str
 
 
 class SongCreate(SongBase):
-    file: bytes
+    pass
 
 
 class Song(SongBase):
     id: int
-    file_url: str
+    uploader_id: int
 
     class Config:
         orm_mode = True

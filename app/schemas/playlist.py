@@ -1,3 +1,4 @@
+from datetime import datetime
 from pydantic import BaseModel
 from .song import Song
 
@@ -5,7 +6,6 @@ from .song import Song
 # Pydantic PlayList model
 class PlayListBase(BaseModel):
     name: str
-    owner_id: int
 
 
 class PlayListCreate(PlayListBase):
@@ -14,7 +14,10 @@ class PlayListCreate(PlayListBase):
 
 class PlayList(PlayListBase):
     id: int
-    songs: list[Song] = []
+    owner_id: int
+    # songs: list[Song] = []
+    cur_song_id: int = None
+    cur_update_time: datetime = None
 
     class Config:
         orm_mode = True
