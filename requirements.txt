@@ -4,3 +4,4 @@ python_jose[cryptography]
 SQLAlchemy[sqlite]
 uvicorn[standard]
 passlib[bcrypt]
+oss2

@@ -5,7 +5,6 @@ from .song import Song
 # Pydantic PlayList model
 class PlayListBase(BaseModel):
     name: str
-    owner_id: int
 
 
 class PlayListCreate(PlayListBase):
@@ -14,7 +13,8 @@ class PlayListCreate(PlayListBase):
 
 class PlayList(PlayListBase):
     id: int
-    songs: list[Song] = []
+    owner_id: int
+    # songs: list[Song] = []
 
     class Config:
         orm_mode = True

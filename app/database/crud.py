@@ -68,16 +68,16 @@ def get_playlist(db: Session, playlist_id: int):
     return db.query(PlayListModel).filter(PlayListModel.id == playlist_id).first()
 
 
-def get_playlist_by_owner_id(db: Session, owner_id: int):
-    return db.query(PlayListModel).filter(PlayListModel.owner_id == owner_id).first()
+def get_playlists_by_owner_id(db: Session, owner_id: int, skip: int = 0, limit: int = 100):
+    return db.query(PlayListModel).filter(PlayListModel.owner_id == owner_id).offset(skip).limit(limit).all()
 
 
 def get_playlists(db: Session, skip: int = 0, limit: int = 100):
     return db.query(PlayListModel).offset(skip).limit(limit).all()
 
 
-def create_playlist(db: Session, playlist: PlayListCreateSchema):
-    db_playlist = PlayListModel(name=playlist.name, owner_id=playlist.owner_id)
+def create_playlist(db: Session, playlist: PlayListCreateSchema, owner_id: int):
+    db_playlist = PlayListModel(name=playlist.name, owner_id=owner_id)
     db.add(db_playlist)
     db.commit()
     db.refresh(db_playlist)
