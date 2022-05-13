@@ -1,3 +1,5 @@
+import datetime
+
 from sqlalchemy.orm import Session
 from passlib.context import CryptContext
 
@@ -86,6 +88,7 @@ def create_playlist(db: Session, playlist: PlayListCreateSchema, owner_id: int):
 
 def update_playlist_cur_song(db: Session, playlist_id: int, song_id: int):
     db_playlist = db.query(PlayListModel).filter(PlayListModel.id == playlist_id).first()
+    db_playlist.cur_update_time = datetime.datetime.now()
     db_playlist.cur_song_id = song_id
     db.commit()
     db.refresh(db_playlist)
