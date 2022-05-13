@@ -17,10 +17,10 @@ router = APIRouter(
 )
 
 
-@router.get("/", response_model=list[User])
-def read_users(skip: int = 0, limit: int = 100, db: Session = Depends(database.get_db)):
-    users = crud.get_users(db, skip=skip, limit=limit)
-    return users
+@router.get("/", response_model=User)
+def read_curr_user(db: Session = Depends(database.get_db), user: User = Depends(get_current_user)):
+    user = crud.get_user(db=db, user_id=user.id)
+    return user
 
 
 @router.get("/{user_id}", response_model=User)

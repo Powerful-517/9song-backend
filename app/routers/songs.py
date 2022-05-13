@@ -25,6 +25,12 @@ def read_songs(skip: int = 0, limit: int = 100, db: Session = Depends(database.g
     return songs
 
 
+@router.get("/{id}", response_model=Song)
+def read_song_by_id(id: int, db: Session = Depends(database.get_db)):
+    song = crud.get_song(song_id=id, db=db)
+    return song
+
+
 @router.get("/uploader_id/{uploader_id}", response_model=list[Song])
 def read_songs_by_uploader_id(uploader_id: int, skip: int = 0, limit: int = 100,
                               db: Session = Depends(database.get_db)):
@@ -39,24 +45,24 @@ def read_songs_by_playlist_id(playlist_id: int, skip: int = 0, limit: int = 100,
     return songs
 
 
-@router.get("/upload_url")
+@router.get("/upload_url/{file_name}")
 def get_song_upload_url(file_name: str):
     if is_file_exists(file_name):
         raise HTTPException(
             status_code=409,
             detail="File already exists."
         )
-    return {"upload_url": get_upload_url(file_name)}
+    return {"upload_url": get_upload_url(file_name).replace("http", "https")}
 
 
-@router.get("/download_url")
+@router.get("/download_url/{file_name}")
 def get_song_download_url(file_name: str):
     if not is_file_exists(file_name):
         raise HTTPException(
             status_code=404,
             detail="File not found."
         )
-    return {"download_url": get_download_url(file_name)}
+    return {"download_url": get_download_url(file_name).replace("http", "https")}
 
 
 @router.post("/", response_model=Song)
