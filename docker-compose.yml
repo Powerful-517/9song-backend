@@ -7,6 +7,11 @@ services:
       dockerfile: dockerfile
     command: ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
     volumes:
-      - ${LOCAL_CODE_ROOT}:/app
+      - ${LOCAL_CODE_ROOT}:/code
     ports:
       - "8000:8000"
+    container_name: python
+    networks:
+      - server
+networks:
+  server:
