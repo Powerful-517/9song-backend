@@ -1,4 +1,4 @@
-FROM python:3.9-alpine as build
+FROM python:3.9-alpine3.13 as build
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories \
     && apk update \
     && apk add git gcc g++ musl-dev libffi-dev libressl-dev make
@@ -10,7 +10,7 @@ RUN pip install -i https://pypi.tuna.tsinghua.edu.cn/simple -r /install/requirem
     && cp -p /usr/local/bin/uvicorn /install/uvicorn
 
 
-FROM python:3.9-alpine
+FROM python:3.9-alpine3.13
 
 # This hack is widely applied to avoid python printing issues in docker containers.
 # See: https://github.com/Docker-Hub-frolvlad/docker-alpine-python3/pull/13
